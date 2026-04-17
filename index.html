@@ -152,7 +152,7 @@
         
         <div id="view-login" class="view active">
             <header>
-                <h1>Versicherungen V2</h1>
+                <h1>Versicherungen V3</h1>
                 <div class="subtitle">SRF mySchool – Digitale Lernumgebung</div>
             </header>
             <div class="card login-box">
@@ -226,11 +226,13 @@
 
     </div>
 
-    <script>
+<script>
         // 1. Supabase initialisieren
         const supabaseUrl = 'https://vshlpndqktpmtnwarxui.supabase.co';
         const supabaseKey = 'sb_publishable_4RadbUY4N2NV5SeaUrvlPg_spcQoznE';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // ACHTUNG: Hier haben wir den Namen geändert auf supabaseClient!
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let currentStudentEmail = '';
 
@@ -261,8 +263,8 @@
                 document.getElementById('student-name-display').innerText = emailInput;
                 switchView('view-student');
 
-                // Daten an Supabase senden
-                const { data, error } = await supabase
+                // Daten an Supabase senden (jetzt mit supabaseClient!)
+                const { data, error } = await supabaseClient
                     .from('student_progress')
                     .upsert({ 
                         email: emailInput, 
@@ -278,7 +280,8 @@
 
         // 4. Daten laden
         async function loadDashboardData() {
-            const { data, error } = await supabase
+            // Daten aus Supabase laden (jetzt mit supabaseClient!)
+            const { data, error } = await supabaseClient
                 .from('student_progress')
                 .select('*');
 
