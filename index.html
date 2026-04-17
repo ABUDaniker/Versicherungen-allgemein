@@ -251,52 +251,14 @@
     </div>
 
     <script>
-// 1. Supabase initialisieren
-const supabaseUrl = 'https://vshlpndqktpmtnwarxui.supabase.co';
-const supabaseKey = 'sb_publishable_4RadbUY4N2NV5SeaUrvlPg_spcQoznE';
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        // 1. Supabase initialisieren
+        const supabaseUrl = 'https://vshlpndqktpmtnwarxui.supabase.co';
+        const supabaseKey = 'sb_publishable_4RadbUY4N2NV5SeaUrvlPg_spcQoznE';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-// Eine Variable, um den aktuell eingeloggten Schüler zu speichern
-let currentStudentEmail = '';
+        let currentStudentEmail = '';
 
-// 2. Die Login-Funktion anpassen, damit sie Daten in Supabase schreibt
-async function handleLogin() {
-    const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
-    
-    if (!emailInput) {
-        alert("Bitte gib eine E-Mail-Adresse ein.");
-        return;
-    }
-
-    // Wenn der Lehrer sich einloggt, lade das Dashboard
-    if (emailInput.includes('lehrer')) {
-        switchView('view-teacher');
-        loadDashboardData(); // Diese Funktion holen wir gleich!
-    } else {
-        // Ein Schüler loggt sich ein!
-        currentStudentEmail = emailInput;
-        document.getElementById('student-name-display').innerText = emailInput;
-        switchView('view-student');
-
-        // Wir schreiben in die Datenbank: Schüler ist jetzt online
-        const { data, error } = await supabase
-            .from('student_progress')
-            .upsert({ 
-                email: emailInput, 
-                current_task: 'Eingeloggt', 
-                status: 'online' 
-            }, { onConflict: 'email' }); // Wenn E-Mail schon existiert, nur updaten
-            
-        if (error) console.error("Fehler beim Speichern in Supabase:", error);
-    }
-}
-        // Anti-Copy-Paste für Schüler
-        document.querySelectorAll('textarea.no-copy').forEach(ta => {
-            ta.addEventListener('paste', e => e.preventDefault());
-            ta.addEventListener('copy', e => e.preventDefault());
-        });
-
-        // Simple Navigations-Logik (Zur Simulation)
+        // 2. Ansichten wechseln (Hilfsfunktion)
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(view => {
                 view.classList.remove('active');
@@ -304,7 +266,8 @@ async function handleLogin() {
             document.getElementById(viewId).classList.add('active');
         }
 
-        function handleLogin() {
+        // 3. Echte Login-Funktion mit Supabase-Verbindung
+        async function handleLogin() {
             const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
             
             if (!emailInput) {
@@ -312,52 +275,73 @@ async function handleLogin() {
                 return;
             }
 
-            // SIMULATION: Wenn die E-Mail "lehrer" enthält, zeige das Dashboard
             if (emailInput.includes('lehrer')) {
+                // Lehrer-Ansicht
                 switchView('view-teacher');
+                loadDashboardData(); 
             } else {
-                // Ansonsten zeige das Schüler-Arbeitsblatt
+                // Schüler-Ansicht
+                currentStudentEmail = emailInput;
                 document.getElementById('student-name-display').innerText = emailInput;
                 switchView('view-student');
+
+                // Daten an Supabase senden
+                const { data, error } = await supabase
+                    .from('student_progress')
+                    .upsert({ 
+                        email: emailInput, 
+                        current_task: 'Eingeloggt', 
+                        status: 'online' 
+                    }, { onConflict: 'email' }); 
+                    
+                if (error) console.error("Fehler beim Speichern in Supabase:", error);
             }
         }
 
+        // 4. Daten für das Lehrer-Dashboard abrufen
+        async function loadDashboardData() {
+            const { data, error } = await supabase
+                .from('student_progress')
+                .select('*');
+
+            if (error) {
+                console.error("Fehler beim Laden der Daten:", error);
+                return;
+            }
+
+            const tbody = document.getElementById('student-list');
+            tbody.innerHTML = ''; // Bisherige Beispieldaten löschen
+
+            data.forEach(student => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${student.email}</td>
+                    <td>${student.current_task}</td>
+                    <td><span class="status-badge ${student.status === 'online' ? 'status-active' : 'status-idle'}">${student.status}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 5. Logout-Funktion
         function logout() {
             document.getElementById('email-input').value = '';
             switchView('view-login');
         }
 
-        // Login mit Enter-Taste ermöglichen
-        document.getElementById('email-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') handleLogin();
+        // 6. Event-Listener (Starten beim Laden der Seite)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Anti-Copy-Paste für Schüler
+            document.querySelectorAll('textarea.no-copy').forEach(ta => {
+                ta.addEventListener('paste', e => e.preventDefault());
+                ta.addEventListener('copy', e => e.preventDefault());
+            });
+
+            // Login mit Enter-Taste
+            document.getElementById('email-input').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') handleLogin();
+            });
         });
-// 3. Daten für das Lehrer-Dashboard abrufen
-async function loadDashboardData() {
-    // Holt alle Daten aus der Tabelle 'student_progress'
-    const { data, error } = await supabase
-        .from('student_progress')
-        .select('*');
-
-    if (error) {
-        console.error("Fehler beim Laden der Daten:", error);
-        return;
-    }
-
-    const tbody = document.getElementById('student-list');
-    tbody.innerHTML = ''; // Bisherige Beispieldaten löschen
-
-    // Jeden gefundenen Schüler in die Tabelle einfügen
-    data.forEach(student => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${student.email}</td>
-            <td>${student.current_task}</td>
-            <td><span class="status-badge ${student.status === 'online' ? 'status-active' : 'status-idle'}">${student.status}</span></td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
     </script>
-
 </body>
 </html>
