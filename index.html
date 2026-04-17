@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Versicherungen – Lernumgebung</title>
@@ -38,7 +38,6 @@
             padding: 2rem 1.5rem 4rem;
         }
 
-        /* View Management */
         .view {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
@@ -52,12 +51,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header */
         header { text-align: center; padding: 2.5rem 0 2rem; }
         header h1 { font-size: 2.2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
         header .subtitle { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
 
-        /* General Card Style */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -67,7 +64,6 @@
             border: 1px solid var(--border);
         }
 
-        /* --- LOGIN STYLES --- */
         .login-box {
             max-width: 400px;
             margin: 4rem auto;
@@ -88,7 +84,6 @@
             box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12);
         }
 
-        /* --- DASHBOARD STYLES --- */
         .dashboard-table {
             width: 100%;
             border-collapse: collapse;
@@ -114,7 +109,6 @@
         .status-active { background: #e8f5e9; color: #2e7d32; }
         .status-idle { background: #fff3e0; color: #ef6c00; }
 
-        /* --- EXISTING STYLES (Video, Tasks, Textareas, Buttons) --- */
         .video-section h2 { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 1rem; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
@@ -146,7 +140,6 @@
         }
         .logout-btn:hover { background: var(--bg-input); }
 
-        /* Print overrides */
         @media print {
             .video-section, .btn-primary, .logout-btn { display: none !important; }
             .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
@@ -171,7 +164,6 @@
             </div>
         </div>
 
-
         <div id="view-teacher" class="view">
             <header>
                 <h1>Klassen-Dashboard</h1>
@@ -180,7 +172,7 @@
 
             <div class="card">
                 <div class="task-header">Aktive Schülerinnen und Schüler</div>
-                <p class="task-text">Hier siehst du, wer gerade eingeloggt ist und an welcher Aufgabe gearbeitet wird. <em>(Hinweis: Dies ist aktuell eine visuelle Demo.)</em></p>
+                <p class="task-text">Hier siehst du, wer gerade eingeloggt ist und an welcher Aufgabe gearbeitet wird.</p>
                 
                 <table class="dashboard-table">
                     <thead>
@@ -191,27 +183,11 @@
                         </tr>
                     </thead>
                     <tbody id="student-list">
-                        <tr>
-                            <td>max.muster@schule.ch</td>
-                            <td>Aufgabe 2: Solidaritätsprinzip</td>
-                            <td><span class="status-badge status-active">Tippt gerade...</span></td>
-                        </tr>
-                        <tr>
-                            <td>anna.beispiel@schule.ch</td>
-                            <td>Aufgabe 4: Kreativer Schadensfall</td>
-                            <td><span class="status-badge status-idle">Liest</span></td>
-                        </tr>
-                        <tr>
-                            <td>seya.test@schule.ch</td>
-                            <td>Aufgabe 1: Vorüberlegungen</td>
-                            <td><span class="status-badge status-active">Tippt gerade...</span></td>
-                        </tr>
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
             <button class="btn-primary logout-btn" onclick="logout()">Ausloggen</button>
         </div>
-
 
         <div id="view-student" class="view">
             <header>
@@ -258,7 +234,7 @@
 
         let currentStudentEmail = '';
 
-        // 2. Ansichten wechseln (Hilfsfunktion)
+        // 2. Ansichten wechseln
         function switchView(viewId) {
             document.querySelectorAll('.view').forEach(view => {
                 view.classList.remove('active');
@@ -266,7 +242,7 @@
             document.getElementById(viewId).classList.add('active');
         }
 
-        // 3. Echte Login-Funktion mit Supabase-Verbindung
+        // 3. Login-Funktion
         async function handleLogin() {
             const emailInput = document.getElementById('email-input').value.trim().toLowerCase();
             
@@ -294,50 +270,54 @@
                         status: 'online' 
                     }, { onConflict: 'email' }); 
                     
-                if (error) console.error("Fehler beim Speichern in Supabase:", error);
+                if (error) {
+                    console.error("Supabase-Fehler:", error);
+                }
             }
         }
 
-        // 4. Daten für das Lehrer-Dashboard abrufen
+        // 4. Daten laden
         async function loadDashboardData() {
             const { data, error } = await supabase
                 .from('student_progress')
                 .select('*');
 
             if (error) {
-                console.error("Fehler beim Laden der Daten:", error);
+                console.error("Lade-Fehler:", error);
                 return;
             }
 
             const tbody = document.getElementById('student-list');
-            tbody.innerHTML = ''; // Bisherige Beispieldaten löschen
+            tbody.innerHTML = ''; 
 
-            data.forEach(student => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${student.email}</td>
-                    <td>${student.current_task}</td>
-                    <td><span class="status-badge ${student.status === 'online' ? 'status-active' : 'status-idle'}">${student.status}</span></td>
-                `;
-                tbody.appendChild(tr);
-            });
+            if (data && data.length > 0) {
+                data.forEach(student => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${student.email}</td>
+                        <td>${student.current_task || 'Unbekannt'}</td>
+                        <td><span class="status-badge ${student.status === 'online' ? 'status-active' : 'status-idle'}">${student.status || 'offline'}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="3">Noch keine Schüler eingeloggt.</td></tr>';
+            }
         }
 
-        // 5. Logout-Funktion
+        // 5. Logout
         function logout() {
             document.getElementById('email-input').value = '';
             switchView('view-login');
         }
 
-        // 6. Event-Listener (Starten beim Laden der Seite)
+        // 6. Event-Listener
         document.addEventListener('DOMContentLoaded', () => {
-            // Anti-Copy-Paste für Schüler
             document.querySelectorAll('textarea.no-copy').forEach(ta => {
                 ta.addEventListener('paste', e => e.preventDefault());
                 ta.addEventListener('copy', e => e.preventDefault());
             });
 
-            // Login mit Enter-Taste
             document.getElementById('email-input').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') handleLogin();
             });
