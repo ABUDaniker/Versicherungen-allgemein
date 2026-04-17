@@ -331,6 +331,32 @@ async function handleLogin() {
         document.getElementById('email-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') handleLogin();
         });
+// 3. Daten für das Lehrer-Dashboard abrufen
+async function loadDashboardData() {
+    // Holt alle Daten aus der Tabelle 'student_progress'
+    const { data, error } = await supabase
+        .from('student_progress')
+        .select('*');
+
+    if (error) {
+        console.error("Fehler beim Laden der Daten:", error);
+        return;
+    }
+
+    const tbody = document.getElementById('student-list');
+    tbody.innerHTML = ''; // Bisherige Beispieldaten löschen
+
+    // Jeden gefundenen Schüler in die Tabelle einfügen
+    data.forEach(student => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${student.email}</td>
+            <td>${student.current_task}</td>
+            <td><span class="status-badge ${student.status === 'online' ? 'status-active' : 'status-idle'}">${student.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
     </script>
 
 </body>
