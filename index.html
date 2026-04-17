@@ -38,6 +38,7 @@
             padding: 2rem 1.5rem 4rem;
         }
 
+        /* View Management */
         .view {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
@@ -51,10 +52,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Header */
         header { text-align: center; padding: 2.5rem 0 2rem; }
         header h1 { font-size: 2.2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
         header .subtitle { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
 
+        /* General Card Style */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -64,85 +67,65 @@
             border: 1px solid var(--border);
         }
 
-        .login-box {
-            max-width: 400px;
-            margin: 4rem auto;
-            text-align: center;
-        }
-        .login-box input {
-            width: 100%;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            background: var(--bg-input);
-        }
-        .login-box input:focus {
-            outline: none;
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12);
-        }
-
-        .dashboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        .dashboard-table th, .dashboard-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        .dashboard-table th {
-            background-color: var(--accent-light);
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+        /* --- LOGIN & DASHBOARD STYLES --- */
+        .login-box { max-width: 400px; margin: 4rem auto; text-align: center; }
+        .login-box input { width: 100%; padding: 1rem; margin: 1.5rem 0; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1rem; background: var(--bg-input); }
+        .login-box input:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12); }
+        
+        .dashboard-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .dashboard-table th, .dashboard-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .dashboard-table th { background-color: var(--accent-light); color: var(--accent); font-weight: 600; }
+        .status-badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
         .status-active { background: #e8f5e9; color: #2e7d32; }
         .status-idle { background: #fff3e0; color: #ef6c00; }
 
+        /* --- TASK STYLES --- */
         .video-section h2 { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 1rem; }
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
         .task-header { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
         .task-text { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.65; }
+        .task-text strong { color: var(--text-main); }
+        .task-hint { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 1rem; }
         
-        textarea {
-            width: 100%; min-height: 120px; padding: 1rem; border: 1.5px solid var(--border);
-            border-radius: 10px; background: var(--bg-input); color: var(--text-main);
-            font-family: inherit; font-size: 0.95rem; line-height: 1.6; resize: vertical;
-        }
-        textarea:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12); }
-        
-        .badge-written {
-            display: inline-block; background: #e8f5e9; color: #2e7d32; font-size: 0.75rem;
-            font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem;
-        }
+        .sub-task { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .sub-task-label { font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; font-size: 0.95rem; }
 
-        .btn-primary {
-            display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 0.8rem 2rem;
-            background: var(--accent); color: #fff; font-family: inherit; font-size: 1rem; font-weight: 600;
-            border: none; border-radius: 10px; cursor: pointer; transition: background 0.3s;
-        }
+        /* Textareas */
+        textarea { width: 100%; min-height: 120px; padding: 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg-input); color: var(--text-main); font-family: inherit; font-size: 0.95rem; line-height: 1.6; resize: vertical; transition: border-color 0.3s, box-shadow 0.3s; }
+        textarea:focus { outline: none; border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12); }
+        textarea.tall { min-height: 180px; }
+
+        /* Badges */
+        .badge-discussion { display: inline-block; background: var(--accent-light); color: var(--accent); font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem; letter-spacing: 0.02em; }
+        .badge-written { display: inline-block; background: #e8f5e9; color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem; letter-spacing: 0.02em; }
+
+        /* Tables */
+        .category-table, .definition-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); margin-top: 0.5rem; }
+        .category-table th, .definition-table th { background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 600; padding: 0.8rem 0.6rem; text-align: center; }
+        .category-table td, .definition-table td { padding: 0.4rem; border-top: 1px solid var(--border); }
+        .category-table textarea { min-height: 100px; border: none; border-radius: 0; background: var(--bg-input); }
+        .category-table textarea:focus, .definition-table textarea:focus { box-shadow: inset 0 0 0 2px var(--border-focus); }
+        .definition-table th { padding: 0.8rem 1rem; text-align: left; }
+        .definition-table td { padding: 0; vertical-align: top; }
+        .definition-table td:first-child { width: 180px; padding: 0.9rem 1rem; font-weight: 600; font-size: 0.9rem; color: var(--text-main); background: rgba(43, 125, 233, 0.04); }
+        .definition-table textarea { min-height: 70px; border: none; border-radius: 0; background: transparent; }
+
+        a.task-link { color: var(--accent); text-decoration: none; font-weight: 500; border-bottom: 1px dashed var(--accent); transition: opacity 0.2s; }
+        a.task-link:hover { opacity: 0.7; }
+
+        /* Buttons */
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 0.8rem 2rem; background: var(--accent); color: #fff; font-family: inherit; font-size: 1rem; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; transition: background 0.3s; }
         .btn-primary:hover { background: var(--accent-hover); }
-        
-        .logout-btn {
-            background: transparent; color: var(--text-muted); border: 1px solid var(--border); margin-top: 2rem;
-        }
+        .logout-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--border); margin-top: 2rem; }
         .logout-btn:hover { background: var(--bg-input); }
 
         @media print {
             .video-section, .btn-primary, .logout-btn { display: none !important; }
-            .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+            .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; margin-bottom: 12pt; }
+            textarea { border: 1px solid #999; background: #fff; min-height: auto !important; height: auto !important; overflow: visible; font-size: 10pt; }
+            .category-table th, .definition-table th { background: #2b7de9 !important; color: #fff !important; }
         }
     </style>
 </head>
@@ -152,13 +135,12 @@
         
         <div id="view-login" class="view active">
             <header>
-                <h1>Versicherungen V3</h1>
+                <h1>Versicherungen</h1>
                 <div class="subtitle">SRF mySchool – Digitale Lernumgebung</div>
             </header>
             <div class="card login-box">
                 <h2>Bitte einloggen</h2>
                 <p class="task-text" style="margin-top: 0.5rem;">Verwende deine schulische E-Mail-Adresse.</p>
-                
                 <input type="email" id="email-input" placeholder="vorname.name@schule.ch" required>
                 <button class="btn-primary" onclick="handleLogin()">Login</button>
             </div>
@@ -169,11 +151,9 @@
                 <h1>Klassen-Dashboard</h1>
                 <div class="subtitle">Live-Übersicht: Thema Versicherungen</div>
             </header>
-
             <div class="card">
                 <div class="task-header">Aktive Schülerinnen und Schüler</div>
-                <p class="task-text">Hier siehst du, wer gerade eingeloggt ist und an welcher Aufgabe gearbeitet wird.</p>
-                
+                <p class="task-text">Hier siehst du, wer gerade eingeloggt ist.</p>
                 <table class="dashboard-table">
                     <thead>
                         <tr>
@@ -204,15 +184,122 @@
 
             <div class="card task-section">
                 <div class="task-header">Aufgabe 1: Vorüberlegungen</div>
-                <p class="task-text">Besprechen Sie sich zu zweit, welche Versicherungen es in der Schweiz gibt bzw. welche Sie selbst haben.</p>
+                <span class="badge-discussion">💬 Diskussion</span>
+                <p class="task-text">Bevor Sie den Film schauen:</p>
+
+                <div class="sub-task-label">1) Besprechen Sie sich zu zweit, welche Versicherungen es in der Schweiz gibt bzw. welche Versicherungen Sie selbst haben.</div>
                 <textarea class="no-copy" placeholder="Notizen zur Diskussion..."></textarea>
+
+                <div class="sub-task">
+                    <div class="sub-task-label">2) Welche dieser Versicherungen haben Sie in der jüngeren Vergangenheit benötigt bzw. wo/wann haben Sie Leistungen von der Versicherung erhalten?</div>
+                    <p class="task-hint">Offene Diskussion in der Klasse.</p>
+                    <textarea class="no-copy" placeholder="Notizen zur Klassendiskussion..."></textarea>
+                </div>
             </div>
 
             <div class="card task-section">
                 <div class="task-header">Aufgabe 2: «einer für alle, alle für einen»</div>
                 <span class="badge-written">✍️ Schriftlich</span>
-                <p class="task-text">Erklären Sie das Solidaritätsprinzip in eigenen Worten (2–3 Sätze).</p>
+                <p class="task-text">Das Schweizer Versicherungssystem funktioniert nach dem im Titel genannten Prinzip, oft auch <strong>Solidaritätsprinzip</strong> genannt. Erklären Sie dieses Prinzip in eigenen Worten (2–3 Sätze).</p>
                 <textarea class="no-copy" placeholder="Das Solidaritätsprinzip bedeutet..."></textarea>
+            </div>
+
+            <div class="card task-section">
+                <div class="task-header">Aufgabe 3: Einteilung von Versicherungen</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+
+                <div class="sub-task-label">1) Versicherungen lassen sich in freiwillige und obligatorische einteilen. Nennen Sie je drei Beispiele.</div>
+                <textarea class="no-copy" placeholder="Obligatorisch:&#10;1. ...&#10;2. ...&#10;3. ...&#10;&#10;Freiwillig:&#10;1. ...&#10;2. ...&#10;3. ..."></textarea>
+
+                <div class="sub-task">
+                    <div class="sub-task-label">2) Versicherungen können den drei Kategorien Sach-, Vermögens- und Personenversicherungen zugeordnet werden.</div>
+                    <p class="task-text">Ordnen Sie Ihre unter 1) genannten Versicherungen der jeweils richtigen Kategorie zu. Finden Sie mithilfe des Internets noch drei weitere Versicherungen.</p>
+                    <table class="category-table">
+                        <thead>
+                            <tr>
+                                <th>Vermögensversicherung</th>
+                                <th>Personenversicherung</th>
+                                <th>Sachversicherung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><textarea class="no-copy" placeholder="z.B. ..."></textarea></td>
+                                <td><textarea class="no-copy" placeholder="z.B. ..."></textarea></td>
+                                <td><textarea class="no-copy" placeholder="z.B. ..."></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card task-section">
+                <div class="task-header">Aufgabe 4: Kreativer Schadensfall</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+                <p class="task-text">Erfinden Sie einen eigenen Schadensfall, in dem folgende Inhalte vorkommen:</p>
+                <ul style="color: var(--text-muted); font-size: 0.95rem; margin: 0 0 1rem 1.5rem; line-height: 1.8;">
+                    <li>alle drei Versicherungskategorien</li>
+                    <li>freiwillige und obligatorische Versicherungen</li>
+                    <li>mindestens vier verschiedene Versicherungen</li>
+                </ul>
+                <p class="task-text">Beschreiben Sie den Schadensfall und nennen Sie jeweils die konkrete Versicherung inkl. Kategorie (Umfang: 6–9 Sätze).</p>
+                <p class="task-hint">Die Lösung kann anschliessend vor der Klasse präsentiert werden.</p>
+                <textarea class="no-copy tall" placeholder="Ihr Schadensfall..."></textarea>
+            </div>
+
+            <div class="card task-section">
+                <div class="task-header">Aufgabe 5: On-Demand-Versicherung</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+                <p class="task-text">Der 20-jährige Seya hat sich beim Biken für eine sogenannte <strong>On-Demand-Versicherung</strong> entschieden. Dabei handelt es sich um ein relativ junges Versicherungsmodell.</p>
+                <p class="task-text">
+                    (vgl. hierzu <a class="task-link" href="https://www.comparis.ch/versicherungen/info/on-demand-versicherungen" target="_blank" rel="noopener">On-Demand-Versicherungen: Was steckt dahinter? (comparis.ch)</a>)
+                </p>
+
+                <div class="sub-task-label">1) Erklären Sie kurz, worum es sich bei einer On-Demand Versicherung handelt.</div>
+                <textarea class="no-copy" placeholder="Eine On-Demand-Versicherung ist..."></textarea>
+
+                <div class="sub-task">
+                    <div class="sub-task-label">2) Nennen Sie je einen Vor- und Nachteil einer On-Demand-Versicherung gegenüber herkömmlichen Modellen.</div>
+                    <p class="task-hint">Tipp: Konsultieren Sie den obigen Link.</p>
+                    <textarea class="no-copy" placeholder="Vorteil:&#10;...&#10;&#10;Nachteil:&#10;..."></textarea>
+                </div>
+            </div>
+
+            <div class="card task-section">
+                <div class="task-header">Aufgabe 6: Begriffe zur Krankenkasse</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+                <p class="task-text">Erklären Sie die folgenden Begriffe in einigen Worten. Die ersten beiden Begriffe gelten allgemein für alle Versicherungen, die weiteren beziehen sich explizit auf die Krankenversicherung.</p>
+
+                <table class="definition-table">
+                    <thead>
+                        <tr>
+                            <th>Begriff</th>
+                            <th>Erklärung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Versicherungspolice</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                        <tr><td>Versicherungsprämie</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                        <tr><td>Selbstbehalt</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                        <tr><td>Franchise</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                        <tr><td>Grundversicherung</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                        <tr><td>Zusatzversicherung</td><td><textarea class="no-copy" placeholder="Erklärung..."></textarea></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card task-section">
+                <div class="task-header">Aufgabe 7: Moral Hazard</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+                <p class="task-text">Am Ende des Videos wird der Begriff <strong>Moral Hazard</strong> genannt.</p>
+
+                <div class="sub-task-label">1) Erklären Sie den Begriff mit einem konkreten Beispiel, das im Video nicht vorkommt.</div>
+                <textarea class="no-copy" placeholder="Moral Hazard bedeutet..."></textarea>
+
+                <div class="sub-task">
+                    <div class="sub-task-label">2) Was könnte ein Versicherungsanbieter unternehmen, um dem Phänomen Moral Hazard entgegenzuwirken?</div>
+                    <textarea class="no-copy" placeholder="Mögliche Massnahmen..."></textarea>
+                </div>
             </div>
             
             <div class="card" style="text-align: center; border: 2px solid var(--accent);">
@@ -226,12 +313,10 @@
 
     </div>
 
-<script>
-        // 1. Supabase initialisieren
+    <script>
+        // 1. Supabase initialisieren (Mit dem korrekten Namen "supabaseClient"!)
         const supabaseUrl = 'https://vshlpndqktpmtnwarxui.supabase.co';
         const supabaseKey = 'sb_publishable_4RadbUY4N2NV5SeaUrvlPg_spcQoznE';
-        
-        // ACHTUNG: Hier haben wir den Namen geändert auf supabaseClient!
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let currentStudentEmail = '';
@@ -263,7 +348,7 @@
                 document.getElementById('student-name-display').innerText = emailInput;
                 switchView('view-student');
 
-                // Daten an Supabase senden (jetzt mit supabaseClient!)
+                // Daten an Supabase senden
                 const { data, error } = await supabaseClient
                     .from('student_progress')
                     .upsert({ 
@@ -280,7 +365,6 @@
 
         // 4. Daten laden
         async function loadDashboardData() {
-            // Daten aus Supabase laden (jetzt mit supabaseClient!)
             const { data, error } = await supabaseClient
                 .from('student_progress')
                 .select('*');
@@ -316,11 +400,13 @@
 
         // 6. Event-Listener
         document.addEventListener('DOMContentLoaded', () => {
+            // Anti-Copy/Paste für alle Textfelder
             document.querySelectorAll('textarea.no-copy').forEach(ta => {
                 ta.addEventListener('paste', e => e.preventDefault());
                 ta.addEventListener('copy', e => e.preventDefault());
             });
 
+            // Enter-Taste für Login
             document.getElementById('email-input').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') handleLogin();
             });
