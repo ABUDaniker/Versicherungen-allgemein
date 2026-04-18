@@ -313,8 +313,8 @@
 
     </div>
 
-    <script>
-        // 1. Supabase initialisieren (Mit dem korrekten Namen "supabaseClient"!)
+   <script>
+        // 1. Supabase initialisieren
         const supabaseUrl = 'https://vshlpndqktpmtnwarxui.supabase.co';
         const supabaseKey = 'sb_publishable_4RadbUY4N2NV5SeaUrvlPg_spcQoznE';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
@@ -348,6 +348,9 @@
                 document.getElementById('student-name-display').innerText = emailInput;
                 switchView('view-student');
 
+                // ++ NEU: E-Mail im Browser speichern, damit man beim Neuladen eingeloggt bleibt ++
+                localStorage.setItem('savedStudentEmail', emailInput);
+
                 // Daten an Supabase senden
                 const { data, error } = await supabaseClient
                     .from('student_progress')
@@ -363,7 +366,7 @@
             }
         }
 
-        // 4. Daten laden
+        // 4. Daten laden (Lehrer-Dashboard)
         async function loadDashboardData() {
             const { data, error } = await supabaseClient
                 .from('student_progress')
@@ -394,19 +397,46 @@
 
         // 5. Logout
         function logout() {
+            // ++ NEU: Gespeicherte E-Mail beim Ausloggen löschen ++
+            localStorage.removeItem('savedStudentEmail');
+            
             document.getElementById('email-input').value = '';
             switchView('view-login');
         }
 
-        // 6. Event-Listener
+        // 6. Start-Skripte beim Laden der Seite
         document.addEventListener('DOMContentLoaded', () => {
-            // Anti-Copy/Paste für alle Textfelder
+            
+            // --- A) ANTI COPY & PASTE ---
             document.querySelectorAll('textarea.no-copy').forEach(ta => {
                 ta.addEventListener('paste', e => e.preventDefault());
                 ta.addEventListener('copy', e => e.preventDefault());
             });
 
-            // Enter-Taste für Login
+            // --- B) TEXTE AUTOMATISCH SPEICHERN & LADEN ---
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach((ta, index) => {
+                // 1. Gibt es gespeicherten Text für dieses Feld? Dann lade ihn rein!
+                const savedText = localStorage.getItem('textarea_' + index);
+                if (savedText) {
+                    ta.value = savedText;
+                }
+
+                // 2. Jedes Mal, wenn getippt wird, Text im Browser speichern
+                ta.addEventListener('input', () => {
+                    localStorage.setItem('textarea_' + index, ta.value);
+                });
+            });
+
+            // --- C) AUTOMATISCHER LOGIN BEIM NEULADEN ---
+            const savedEmail = localStorage.getItem('savedStudentEmail');
+            if (savedEmail) {
+                // Wenn schon eine E-Mail gespeichert ist, trage sie ein und klicke unsichtbar auf Login
+                document.getElementById('email-input').value = savedEmail;
+                handleLogin();
+            }
+
+            // --- D) ENTER-TASTE ---
             document.getElementById('email-input').addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') handleLogin();
             });
