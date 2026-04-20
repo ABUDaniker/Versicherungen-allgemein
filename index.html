@@ -4,7 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Versicherungen – Lernumgebung</title>
+    <title>Versicherungen – Lernumgebung V4</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -50,43 +50,74 @@
         header h1 { font-size: 2.2rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
         header .subtitle { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
 
-        .card { background: var(--bg-card); border-radius: var(--radius); padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 12px var(--shadow); border: 1px solid var(--border); }
-        
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 12px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* Login & Dashboard */
         .login-box { max-width: 400px; margin: 4rem auto; text-align: center; }
         .login-box input { width: 100%; padding: 1rem; margin: 1.5rem 0; border: 1.5px solid var(--border); border-radius: 10px; font-size: 1rem; background: var(--bg-input); }
-        
         .dashboard-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .dashboard-table th, .dashboard-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
         .dashboard-table th { background-color: var(--accent-light); color: var(--accent); font-weight: 600; }
-        
         .status-badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; background: #e8f5e9; color: #2e7d32; }
 
+        /* Video & Aufgaben */
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 10px; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .task-header { font-size: 1.15rem; font-weight: 700; color: var(--accent); margin-bottom: 0.3rem; }
+        .task-text { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.65; }
+        .sub-task-label { font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; font-size: 0.95rem; }
         
-        textarea { width: 100%; min-height: 120px; padding: 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg-input); font-family: inherit; margin-top: 10px; }
-        
+        textarea { width: 100%; min-height: 120px; padding: 1rem; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg-input); font-family: inherit; font-size: 0.95rem; margin-top: 5px; transition: border-color 0.3s; }
+        textarea:focus { outline: none; border-color: var(--border-focus); }
+        textarea.tall { min-height: 180px; }
+
+        /* Badges */
+        .badge-written { display: inline-block; background: #e8f5e9; color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem; }
+        .badge-discussion { display: inline-block; background: var(--accent-light); color: var(--accent); font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem; }
+
+        /* Tabellen */
+        .category-table, .definition-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--border); margin-top: 0.5rem; }
+        .category-table th, .definition-table th { background: var(--accent); color: #fff; font-size: 0.85rem; padding: 0.8rem; }
+        .category-table td, .definition-table td { border-top: 1px solid var(--border); }
+        .category-table textarea, .definition-table textarea { border: none; min-height: 80px; margin-top: 0; }
+        .definition-table td:first-child { width: 150px; background: rgba(43, 125, 233, 0.04); font-weight: 600; padding: 10px; font-size: 0.9rem; }
+
         .btn-primary { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 0.8rem 2rem; background: var(--accent); color: #fff; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; }
         .logout-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--border); margin-top: 2rem; }
+
+        @media print {
+            .video-section, .btn-primary, .logout-btn { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div id="view-login" class="view active">
-            <header><h1>Versicherungen</h1></header>
+            <header>
+                <h1>Versicherungen V4</h1>
+                <div class="subtitle">SRF mySchool – Digitale Lernumgebung</div>
+            </header>
             <div class="card login-box">
-                <h2>Login</h2>
-                <input type="email" id="email-input" placeholder="E-Mail eingeben...">
-                <button class="btn-primary" onclick="handleLogin()">Einloggen</button>
+                <h2>Bitte einloggen</h2>
+                <input type="email" id="email-input" placeholder="vorname.name@schule.ch" required>
+                <button class="btn-primary" onclick="handleLogin()">Login</button>
             </div>
         </div>
 
         <div id="view-teacher" class="view">
-            <header><h1>Lehrer Dashboard</h1></header>
+            <header><h1>Klassen-Dashboard</h1></header>
             <div class="card">
                 <table class="dashboard-table">
-                    <thead><tr><th>Schüler</th><th>Aktuelle Aufgabe</th></tr></thead>
+                    <thead><tr><th>Schüler/in</th><th>Aktuelle Aufgabe</th></tr></thead>
                     <tbody id="student-list"></tbody>
                 </table>
             </div>
@@ -94,10 +125,82 @@
         </div>
 
         <div id="view-student" class="view">
-            <header><h1>Arbeitsblatt</h1><div id="student-display"></div></header>
-            <div class="card"><div class="video-wrapper"><iframe src="https://tp.srgssr.ch/p/srf/embed?urn=urn:srf:video:484626eb-74b6-48f0-955b-2192276dd48c"></iframe></div></div>
-            <div class="card"><h3>Aufgabe 1</h3><textarea data-task="Aufgabe 1"></textarea></div>
-            <div class="card"><h3>Aufgabe 2</h3><textarea data-task="Aufgabe 2"></textarea></div>
+            <header>
+                <h1>Versicherungen</h1>
+                <div class="subtitle" id="student-display"></div>
+            </header>
+
+            <div class="card video-section">
+                <div class="video-wrapper">
+                    <iframe src="https://tp.srgssr.ch/p/srf/embed?urn=urn:srf:video:484626eb-74b6-48f0-955b-2192276dd48c" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 1: Vorüberlegungen</div>
+                <span class="badge-discussion">💬 Diskussion</span>
+                <div class="sub-task-label">1) Welche Versicherungen gibt es in der Schweiz?</div>
+                <textarea class="no-copy" data-task="Aufgabe 1.1"></textarea>
+                <div class="sub-task-label" style="margin-top:15px">2) Wo haben Sie bereits Leistungen erhalten?</div>
+                <textarea class="no-copy" data-task="Aufgabe 1.2"></textarea>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 2: Solidaritätsprinzip</div>
+                <span class="badge-written">✍️ Schriftlich</span>
+                <p class="task-text">Erklären Sie das Prinzip «einer für alle, alle für einen».</p>
+                <textarea class="no-copy" data-task="Aufgabe 2"></textarea>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 3: Einteilung</div>
+                <div class="sub-task-label">1) Obligatorische vs. Freiwillige Versicherungen</div>
+                <textarea class="no-copy" data-task="Aufgabe 3.1"></textarea>
+                <div class="sub-task-label" style="margin-top:15px">2) Kategorien-Zuordnung</div>
+                <table class="category-table">
+                    <tr><th>Vermögen</th><th>Personen</th><th>Sachen</th></tr>
+                    <tr>
+                        <td><textarea class="no-copy" data-task="Aufgabe 3.2 V"></textarea></td>
+                        <td><textarea class="no-copy" data-task="Aufgabe 3.2 P"></textarea></td>
+                        <td><textarea class="no-copy" data-task="Aufgabe 3.2 S"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 4: Kreativer Schadensfall</div>
+                <p class="task-text">Erfinden Sie einen Fall mit mind. 4 Versicherungen.</p>
+                <textarea class="no-copy tall" data-task="Aufgabe 4"></textarea>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 5: On-Demand</div>
+                <div class="sub-task-label">1) Was ist das?</div>
+                <textarea class="no-copy" data-task="Aufgabe 5.1"></textarea>
+                <div class="sub-task-label" style="margin-top:15px">2) Vor- und Nachteile</div>
+                <textarea class="no-copy" data-task="Aufgabe 5.2"></textarea>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 6: Krankenkassen-Begriffe</div>
+                <table class="definition-table">
+                    <tr><td>Police</td><td><textarea data-task="Aufgabe 6.1"></textarea></td></tr>
+                    <tr><td>Prämie</td><td><textarea data-task="Aufgabe 6.2"></textarea></td></tr>
+                    <tr><td>Selbstbehalt</td><td><textarea data-task="Aufgabe 6.3"></textarea></td></tr>
+                    <tr><td>Franchise</td><td><textarea data-task="Aufgabe 6.4"></textarea></td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="task-header">Aufgabe 7: Moral Hazard</div>
+                <p class="task-text">Erklären Sie den Begriff mit einem eigenen Beispiel.</p>
+                <textarea class="no-copy" data-task="Aufgabe 7"></textarea>
+            </div>
+
+            <div class="card" style="text-align: center; border: 2px solid var(--accent);">
+                <button class="btn-primary" onclick="window.print()">🖨️ Ergebnisse als PDF speichern</button>
+            </div>
+
             <button class="btn-primary logout-btn" onclick="logout()">Ausloggen</button>
         </div>
     </div>
@@ -119,7 +222,7 @@
             if (!email) return;
 
             currentUserEmail = email;
-            localStorage.setItem('savedEmail', email); // Speichert für BEIDE (Lehrer & Schüler)
+            localStorage.setItem('savedUserEmail', email);
 
             if (email.includes('lehrer')) {
                 switchView('view-teacher');
@@ -134,10 +237,10 @@
 
         async function updateProgress(taskName) {
             if (!currentUserEmail || currentUserEmail.includes('lehrer')) return;
-            // WICHTIG: Erfordert 'Unique' Constraint auf 'email' Spalte in Supabase!
-            await supabaseClient.from('student_progress').upsert({ 
+            const { error } = await supabaseClient.from('student_progress').upsert({ 
                 email: currentUserEmail, current_task: taskName, status: 'online' 
             }, { onConflict: 'email' });
+            if (error) console.error("Fehler:", error);
         }
 
         async function loadDashboardData() {
@@ -166,18 +269,22 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Textarea-Speicherung für Schüler
+            // Textarea-Speicherung & Live-Update
             document.querySelectorAll('textarea').forEach((ta, i) => {
-                const saved = localStorage.getItem('text_' + i);
+                const saved = localStorage.getItem('task_text_' + i);
                 if (saved) ta.value = saved;
+
                 ta.addEventListener('input', () => {
-                    localStorage.setItem('text_' + i, ta.value);
-                    updateProgress(ta.getAttribute('data-task'));
+                    localStorage.setItem('task_text_' + i, ta.value);
+                    updateProgress(ta.getAttribute('data-task') || 'Bearbeitet Aufgaben');
                 });
+                
+                ta.addEventListener('paste', e => e.preventDefault());
+                ta.addEventListener('copy', e => e.preventDefault());
             });
 
-            // Automatischer Login beim Neuladen
-            const savedEmail = localStorage.getItem('savedEmail');
+            // Automatischer Login
+            const savedEmail = localStorage.getItem('savedUserEmail');
             if (savedEmail) {
                 document.getElementById('email-input').value = savedEmail;
                 handleLogin();
