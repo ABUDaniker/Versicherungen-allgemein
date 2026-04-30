@@ -4,7 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Versicherungen – Lernumgebung V6</title>
+    <title>Versicherungen – Lernumgebung V7</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,7 +23,6 @@
             --success-bg: #f0fdf4;
             --success-border: #22c55e;
             --success-text: #166534;
-            --warning-border: #f59e0b;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -73,19 +72,14 @@
 
         /* Actions: Buttons & Lösungen */
         .action-group { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
-        
         .btn-check, .btn-reset { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: transparent; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        
         .btn-check { color: var(--accent); }
         .btn-check:hover { background: var(--bg-input); border-color: var(--accent); }
-        
         .btn-reset { color: #d97706; border-color: #fcd34d; }
         .btn-reset:hover { background: #fffbeb; border-color: #d97706; }
         
         .solution-box { display: none; background: var(--success-bg); border-left: 4px solid var(--success-border); padding: 1rem; margin-top: 1rem; border-radius: 0 8px 8px 0; font-size: 0.9rem; color: var(--success-text); line-height: 1.6; }
         .solution-box.active { display: block; animation: fadeIn 0.3s ease; }
-        .solution-box strong { color: #14532d; }
-        .solution-list { margin-left: 1.5rem; margin-top: 0.5rem; }
 
         /* Badges */
         .badge-written { display: inline-block; background: #e8f5e9; color: #2e7d32; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 20px; margin-bottom: 0.8rem; }
@@ -112,12 +106,13 @@
     <div class="container">
         <div id="view-login" class="view active">
             <header>
-                <h1>Versicherungen V6</h1>
+                <h1>Versicherungen V7</h1>
                 <div class="subtitle">SRF mySchool – Digitale Lernumgebung</div>
             </header>
             <div class="card login-box">
                 <h2>Bitte einloggen</h2>
-                <input type="email" id="email-input" placeholder="vorname.name@schule.ch" required>
+                <p class="task-text" style="margin-top: 0.5rem;">Geben Sie Ihren Vor- und Nachnamen ein.</p>
+                <input type="text" id="login-input" placeholder="Vorname Nachname" required>
                 <button class="btn-primary" onclick="handleLogin()">Login</button>
             </div>
         </div>
@@ -151,7 +146,7 @@
                 <div class="sub-task-label">1) Welche Versicherungen gibt es in der Schweiz?</div>
                 <textarea class="no-copy task-input" data-task="Aufgabe 1.1" placeholder="Ihre Notizen..."></textarea>
                 
-                <div class="sub-task-label" style="margin-top:15px">2) Welche Versicherungen mussten Sie bereits in Anspruch nehmen?</div>
+                <div class="sub-task-label" style="margin-top:15px">2) Wo haben Sie bereits Leistungen erhalten?</div>
                 <textarea class="no-copy task-input" data-task="Aufgabe 1.2" placeholder="Ihre Erfahrungen..."></textarea>
             </div>
 
@@ -166,14 +161,13 @@
                     <button class="btn-reset" onclick="resetTask('task-container-2', 'sol-t2')">🔄 Wiederholen</button>
                 </div>
                 <div id="sol-t2" class="solution-box">
-                    <strong>Musterlösung:</strong> Versicherte Menschen bilden eine sogenannte Gefahrengemeinschaft und zahlen regelmässig einen bestimmten Betrag (Prämie) in einen gemeinsamen Topf. Wenn sich bei jemandem in der Gesellschaft ein Schaden einstellt, wird dieser aus dem Topf bezahlt. Dies wird auch als kollektive Risikoübernahme bezeichnet.
+                    <strong>Musterlösung:</strong> Versicherte Menschen bilden eine sogenannte Gefahrengemeinschaft und zahlen regelmässig einen bestimmten Betrag (Prämie) in einen gemeinsamen Topf. Wenn sich bei jemandem in der Gesellschaft ein Schaden einstellt, wird dieser aus dem Topf bezahlt. 
                 </div>
             </div>
 
             <div class="card" id="task-container-3">
                 <div class="task-header">Aufgabe 3: Einteilung</div>
-                
-                <div class="sub-task-label">1) Nennen Sie drei obligatorische und drei freiwillige Versicherungen </div>
+                <div class="sub-task-label">1) Sie haben im Video die Kategorien obligatorische und freiwillige Versicherungen kennen gelernt. Notieren Sie je drei</div>
                 <textarea class="no-copy task-input" data-task="Aufgabe 3.1" placeholder="Obligatorisch: ... &#10;Freiwillig: ..."></textarea>
                 
                 <div class="action-group">
@@ -181,12 +175,11 @@
                     <button class="btn-reset" onclick="resetTask('task-container-3', 'sol-t31', true)">🔄 Wiederholen</button>
                 </div>
                 <div id="sol-t31" class="solution-box">
-                    <strong>Obligatorisch:</strong> Krankenkasse Grundversicherung, Motorfahrzeughaftpflichtversicherung, Invaliden- und Unfallversicherung (bei mind. 8h Anstellung), Gebäudeversicherung (als Hauseigentümer:in in den meisten Kantonen).<br><br>
-                    <strong>Freiwillig:</strong> Privathaftpflichtversicherung, Hausratversicherung (in den meisten Kantonen freiwillig), Rechtsschutz, private Altersvorsorge (3. Säule), Krankenkasse Zusatzversicherung, Teil- und Vollkasko, Krankentaggeldversicherung.
+                    <strong>Obligatorisch:</strong> Krankenkasse Grundversicherung, Motorfahrzeughaftpflichtversicherung, Invaliden- und Unfallversicherung. <br><br>
+                    <strong>Freiwillig:</strong> Privathaftpflichtversicherung, Hausratversicherung, Rechtsschutz. 
                 </div>
 
                 <div class="sub-task-label" style="margin-top:25px">2) Kategorien-Zuordnung</div>
-                <p class="task-text">Sie haben drei Kategorien von Versicherungen kennen gelernt. Ordnen Sie die Versicherungen in die richtige Kategorie ein.</p>
                 <table class="category-table" id="task-table-32">
                     <tr><th>Vermögen</th><th>Personen</th><th>Sachen</th></tr>
                     <tr>
@@ -200,75 +193,54 @@
                     <button class="btn-reset" onclick="resetTableTask('task-table-32', 'sol-t32')">🔄 Wiederholen</button>
                 </div>
                 <div id="sol-t32" class="solution-box">
-                    <strong>Vermögensversicherung:</strong> Privathaftpflicht, Motorfahrzeughaftpflicht.<br><br>
-                    <strong>Personenversicherung:</strong> 3. Säule, Krankenversicherung (Grund- und Zusatzversicherung), Invaliden- und Unfallversicherung, Krankentaggeld.<br><br>
-                    <strong>Sachversicherung:</strong> Teilkasko/Vollkasko, Gebäudeversicherung, Hausratversicherung.
+                    <strong>Vermögen:</strong> Haftpflichtversicherungen. <br>
+                    <strong>Personen:</strong> Krankenversicherung, Unfallversicherung. <br>
+                    <strong>Sachen:</strong> Hausratversicherung, Kaskoversicherungen. 
                 </div>
             </div>
 
             <div class="card">
                 <div class="task-header">Aufgabe 4: Kreativer Schadensfall</div>
-                <p class="task-text">Erfinden Sie einen Fall mit mind. 4 Versicherungen (alle Kategorien, obligatorisch & freiwillig).</p>
+                <p class="task-text">Erfinden Sie einen Fall mit mind. 4 Versicherungen.</p>
                 <textarea class="no-copy tall task-input" data-task="Aufgabe 4" placeholder="Ihr erfundener Schadensfall..."></textarea>
             </div>
 
             <div class="card" id="task-container-5">
                 <div class="task-header">Aufgabe 5: On-Demand-Versicherung</div>
-                
-                <div class="sub-task-label">1) Worüber handelt es sich bei einer On-Demand Versicherung?</div>
+                <div class="sub-task-label">1) Erklären Sie den Begriff "On-Demand Versicherung"</div>
                 <textarea class="no-copy task-input" data-task="Aufgabe 5.1"></textarea>
-                
                 <div class="action-group">
                     <button class="btn-check" onclick="toggleSolution('sol-t51')">👁️ Lösung überprüfen</button>
                     <button class="btn-reset" onclick="resetTask('task-container-5', 'sol-t51', true)">🔄 Wiederholen</button>
                 </div>
                 <div id="sol-t51" class="solution-box">
-                    <strong>Musterlösung:</strong> Der Versicherungsschutz lässt sich online via Smartphone aktivieren[cite: 40]. Der Kunde kann die Versicherung dann einschalten, wenn er sie benötigt, sodass er auch nur für diese Tage Prämien zahlt.
-                </div>
-
-                <div class="sub-task-label" style="margin-top:25px">2) Nennen Sie je einen Vor- und Nachteil.</div>
-                <textarea class="no-copy task-input" data-task="Aufgabe 5.2"></textarea>
-                
-                <div class="action-group">
-                    <button class="btn-check" onclick="toggleSolution('sol-t52')">👁️ Lösung überprüfen</button>
-                    <button class="btn-reset" onclick="resetTask('task-container-5', 'sol-t52', false, true)">🔄 Wiederholen</button>
-                </div>
-                <div id="sol-t52" class="solution-box">
-                    <strong>Vorteile:</strong> Schnelle und sehr flexible Bedienung/Aktivierung via Smartphone, kurze und flexible Laufzeiten, keine Vertragsbindung.<br><br>
-                    <strong>Nachteile:</strong> In der Regel ist nur das konkret benannte Objekt versichert, nicht automatisch günstiger, man muss daran denken, die Aktivierung einzuschalten.
+                    <strong>Musterlösung:</strong> Der Versicherungsschutz lässt sich online via Smartphone aktivieren. Man zahlt nur für die Tage, an denen man die Versicherung einschaltet. 
                 </div>
             </div>
 
             <div class="card" id="task-container-6">
                 <div class="task-header">Aufgabe 6: Krankenkassen-Begriffe</div>
-                <p class="task-text">Erklären Sie die folgenden Begriffe.</p>
                 <table class="definition-table" id="task-table-6">
                     <tr><td>Police</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.1"></textarea></td></tr>
                     <tr><td>Prämie</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.2"></textarea></td></tr>
                     <tr><td>Selbstbehalt</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.3"></textarea></td></tr>
                     <tr><td>Franchise</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.4"></textarea></td></tr>
-                    <tr><td>Grundversicherung</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.5"></textarea></td></tr>
-                    <tr><td>Zusatzversicherung</td><td><textarea class="no-copy task-input" data-task="Aufgabe 6.6"></textarea></td></tr>
                 </table>
                 <div class="action-group">
                     <button class="btn-check" onclick="toggleSolution('sol-t6')">👁️ Lösungen überprüfen</button>
                     <button class="btn-reset" onclick="resetTableTask('task-table-6', 'sol-t6')">🔄 Wiederholen</button>
                 </div>
                 <div id="sol-t6" class="solution-box">
-                    <ul class="solution-list">
-                        <li><strong>Police:</strong> In der Police stehen die grundsätzlichen Vertragsbedingungen für Versicherungsnehmer und Versicherungsgeber.</li>
-                        <li><strong>Prämie:</strong> Bei der Prämie handelt es sich um den (monatlichen) Beitrag an die Versicherung, der den Versicherungsschutz gewährleistet.</li>
-                        <li><strong>Selbstbehalt:</strong> Der Selbstbehalt stellt eine weitere Kostenbeteiligung der versicherten Person dar, nachdem die maximale Franchise erreicht ist. Er beträgt 10 % und muss bis zu einer maximalen Summe von CHF 700 geleistet werden.</li>
-                        <li><strong>Franchise:</strong> Die Franchise ist ein frei wählbarer Betrag (min. CHF 300, max. CHF 2500), den ich pro Jahr selbst übernehmen müsste, bevor die Krankenversicherung ins Spiel kommt.</li>
-                        <li><strong>Grundversicherung:</strong> Die Grundversicherung ist für alle Einwohner der Schweiz obligatorisch.</li>
-                        <li><strong>Zusatzversicherung:</strong> Die Zusatzversicherung ist freiwillig und deckt Behandlungen und Leistungen, welche nicht von der Grundversicherung übernommen werden.</li>
-                    </ul>
+                    <strong>Police:</strong> Vertragsbedingungen. <br>
+                    <strong>Prämie:</strong> Monatlicher Beitrag. <br>
+                    <strong>Selbstbehalt:</strong> 10% Kostenbeteiligung nach der Franchise. <br>
+                    <strong>Franchise:</strong> Fixer Betrag, den man pro Jahr selbst zahlt.
                 </div>
             </div>
 
             <div class="card">
                 <div class="task-header">Aufgabe 7: Moral Hazard</div>
-                <p class="task-text">Erklären Sie den Begriff mit einem <strong>eigenen Beispiel</strong>, das im Video nicht vorkommt.</p>
+                <p class="task-text">Erklären Sie den Begriff mit einem eigenen Beispiel.</p>
                 <textarea class="no-copy task-input" data-task="Aufgabe 7" placeholder="Ihr Beispiel..."></textarea>
             </div>
 
@@ -293,81 +265,62 @@
         }
 
         function toggleSolution(id) {
-            const solBox = document.getElementById(id);
-            solBox.classList.toggle('active');
+            document.getElementById(id).classList.toggle('active');
         }
 
-        // NEU: Setzt ein einzelnes Textfeld zurück (mit Option für mehrere im selben Container)
-        function resetTask(containerId, solId, isFirstInContainer = false, isSecondInContainer = false) {
+        function resetTask(containerId, solId, first = false, second = false) {
             const container = document.getElementById(containerId);
             const textareas = container.querySelectorAll('textarea');
+            let ta = textareas[0];
+            if (second && textareas.length > 1) ta = textareas[1];
             
-            // Bestimme, welches Textfeld geleert werden soll
-            let taToReset = textareas[0];
-            if (isSecondInContainer && textareas.length > 1) {
-                taToReset = textareas[1];
-            } else if (!isFirstInContainer && !isSecondInContainer && textareas.length === 1) {
-                 taToReset = textareas[0];
-            } else if(isFirstInContainer) {
-                 taToReset = textareas[0];
-            }
-            
-            taToReset.value = '';
-            
-            // LocalStorage aktualisieren
-            const index = Array.from(document.querySelectorAll('textarea.task-input')).indexOf(taToReset);
-            localStorage.setItem('task_text_v6_' + index, '');
-            
-            // Lösungsbox zuklappen
+            ta.value = '';
+            const idx = Array.from(document.querySelectorAll('textarea.task-input')).indexOf(ta);
+            localStorage.setItem('task_text_v7_' + idx, '');
             document.getElementById(solId).classList.remove('active');
-            
-            // DB Update auslösen
-            updateProgress(taToReset.getAttribute('data-task') + ' (Wiederholt)');
+            updateProgress(ta.getAttribute('data-task') + ' (Reset)');
         }
 
-        // NEU: Setzt alle Textfelder innerhalb einer Tabelle zurück
         function resetTableTask(tableId, solId) {
             const table = document.getElementById(tableId);
             const textareas = table.querySelectorAll('textarea');
-            const allTextareas = Array.from(document.querySelectorAll('textarea.task-input'));
-            
+            const all = Array.from(document.querySelectorAll('textarea.task-input'));
             textareas.forEach(ta => {
                 ta.value = '';
-                const index = allTextareas.indexOf(ta);
-                localStorage.setItem('task_text_v6_' + index, '');
+                localStorage.setItem('task_text_v7_' + all.indexOf(ta), '');
             });
-            
             document.getElementById(solId).classList.remove('active');
-            
-            if(textareas.length > 0) {
-                 updateProgress(textareas[0].getAttribute('data-task').split(' ')[0] + ' (Wiederholt)');
-            }
+            updateProgress('Tabelle Reset');
         }
 
+        // GEÄNDERT: Login mit Name statt E-Mail
         async function handleLogin() {
-            const email = document.getElementById('email-input').value.trim().toLowerCase();
-            if (!email) return;
+            const loginInput = document.getElementById('login-input').value.trim();
+            if (!loginInput) {
+                alert("Bitte geben Sie einen Namen ein.");
+                return;
+            }
 
-            currentUserEmail = email;
-            localStorage.setItem('savedUserEmail', email);
-
-            if (email.includes('lehrer')) {
+            if (loginInput.toLowerCase().includes('lehrer')) {
+                currentUserEmail = 'lehrer';
+                localStorage.setItem('savedUserEmail', 'lehrer');
                 switchView('view-teacher');
                 loadDashboardData();
                 setupRealtime();
             } else {
-                document.getElementById('student-display').innerText = "Eingeloggt als: " + email;
+                currentUserEmail = loginInput; // Der Name wird als ID genutzt
+                localStorage.setItem('savedUserEmail', loginInput);
+                document.getElementById('student-display').innerText = "Eingeloggt als: " + loginInput;
                 switchView('view-student');
                 updateProgress('Eingeloggt');
             }
         }
 
         async function updateProgress(taskName) {
-            if (!currentUserEmail || currentUserEmail.includes('lehrer')) return;
-            const { error } = await supabaseClient.from('student_progress').upsert({ 
+            if (!currentUserEmail || currentUserEmail === 'lehrer') return;
+            await supabaseClient.from('student_progress').upsert({ 
                 email: currentUserEmail, current_task: taskName, status: 'online' 
             }, { onConflict: 'email' });
-            if (error) console.error("Datenbank-Fehler:", error);
         }
 
         async function loadDashboardData() {
@@ -382,12 +335,9 @@
         }
 
         function setupRealtime() {
-            supabaseClient
-                .channel('any')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'student_progress' }, () => {
-                    loadDashboardData();
-                })
-                .subscribe();
+            supabaseClient.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'student_progress' }, () => {
+                loadDashboardData();
+            }).subscribe();
         }
 
         function logout() {
@@ -396,21 +346,21 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const allTaskInputs = document.querySelectorAll('textarea.task-input');
-            
-            allTaskInputs.forEach((ta, i) => {
-                const saved = localStorage.getItem('task_text_v6_' + i);
+            const inputs = document.querySelectorAll('textarea.task-input');
+            inputs.forEach((ta, i) => {
+                const saved = localStorage.getItem('task_text_v7_' + i);
                 if (saved) ta.value = saved;
-
                 ta.addEventListener('input', () => {
-                    localStorage.setItem('task_text_v6_' + i, ta.value);
-                    updateProgress(ta.getAttribute('data-task') || 'Bearbeitet Aufgaben');
+                    localStorage.setItem('task_text_v7_' + i, ta.value);
+                    updateProgress(ta.getAttribute('data-task'));
                 });
+                ta.addEventListener('paste', e => e.preventDefault());
+                ta.addEventListener('copy', e => e.preventDefault());
             });
 
-            const savedEmail = localStorage.getItem('savedUserEmail');
-            if (savedEmail) {
-                document.getElementById('email-input').value = savedEmail;
+            const saved = localStorage.getItem('savedUserEmail');
+            if (saved) {
+                document.getElementById('login-input').value = saved;
                 handleLogin();
             }
         });
