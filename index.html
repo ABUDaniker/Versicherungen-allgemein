@@ -268,15 +268,14 @@
             document.getElementById(id).classList.toggle('active');
         }
 
-        function resetTask(containerId, solId, first = false, second = false) {
+        function resetTask(containerId, solId, second = false) {
             const container = document.getElementById(containerId);
             const textareas = container.querySelectorAll('textarea');
-            let ta = textareas[0];
-            if (second && textareas.length > 1) ta = textareas[1];
+            const ta = second ? textareas[1] : textareas[0];
             
             ta.value = '';
-            const idx = Array.from(document.querySelectorAll('textarea.task-input')).indexOf(ta);
-            localStorage.setItem('task_text_v7_' + idx, '');
+            const taskKey = 'task_v7_' + ta.getAttribute('data-task');
+            localStorage.setItem(taskKey, '');
             document.getElementById(solId).classList.remove('active');
             updateProgress(ta.getAttribute('data-task') + ' (Reset)');
         }
@@ -284,16 +283,18 @@
         function resetTableTask(tableId, solId) {
             const table = document.getElementById(tableId);
             const textareas = table.querySelectorAll('textarea');
-            const all = Array.from(document.querySelectorAll('textarea.task-input'));
             textareas.forEach(ta => {
                 ta.value = '';
-                localStorage.setItem('task_text_v7_' + all.indexOf(ta), '');
+                const taskKey = 'task_v7_' + ta.getAttribute('data-task');
+                localStorage.setItem(taskKey, '');
             });
             document.getElementById(solId).classList.remove('active');
             updateProgress('Tabelle Reset');
         }
 
         // GEÄNDERT: Login mit Name statt E-Mail
+        const TEACHER_PASSWORD = 'Lehrer2026!';
+
         async function handleLogin() {
             const loginInput = document.getElementById('login-input').value.trim();
             if (!loginInput) {
@@ -302,6 +303,11 @@
             }
 
             if (loginInput.toLowerCase().includes('lehrer')) {
+                const pw = prompt('Lehrer-Passwort eingeben:');
+                if (pw !== TEACHER_PASSWORD) {
+                    alert('Falsches Passwort.');
+                    return;
+                }
                 currentUserEmail = 'lehrer';
                 localStorage.setItem('savedUserEmail', 'lehrer');
                 switchView('view-teacher');
@@ -329,7 +335,17 @@
             tbody.innerHTML = '';
             if (data) {
                 data.forEach(s => {
-                    tbody.innerHTML += `<tr><td>${s.email}</td><td><span class="status-badge">${s.current_task}</span></td></tr>`;
+                    const tr = document.createElement('tr');
+                    const tdName = document.createElement('td');
+                    tdName.textContent = s.email;
+                    const tdTask = document.createElement('td');
+                    const badge = document.createElement('span');
+                    badge.className = 'status-badge';
+                    badge.textContent = s.current_task;
+                    tdTask.appendChild(badge);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdTask);
+                    tbody.appendChild(tr);
                 });
             }
         }
@@ -347,11 +363,12 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const inputs = document.querySelectorAll('textarea.task-input');
-            inputs.forEach((ta, i) => {
-                const saved = localStorage.getItem('task_text_v7_' + i);
+            inputs.forEach((ta) => {
+                const taskKey = 'task_v7_' + ta.getAttribute('data-task');
+                const saved = localStorage.getItem(taskKey);
                 if (saved) ta.value = saved;
                 ta.addEventListener('input', () => {
-                    localStorage.setItem('task_text_v7_' + i, ta.value);
+                    localStorage.setItem(taskKey, ta.value);
                     updateProgress(ta.getAttribute('data-task'));
                 });
                 ta.addEventListener('paste', e => e.preventDefault());
