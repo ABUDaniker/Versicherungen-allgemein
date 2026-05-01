@@ -367,7 +367,8 @@
             }).subscribe();
         }
 
-        function logout() {
+        async function logout() {
+            await updateProgress('Ausgeloggt');
             localStorage.clear();
             location.reload();
         }
